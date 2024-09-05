@@ -1,34 +1,16 @@
-//marvel-challenge/src/app/api/characters/route.js
-import axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
-import md5 from "md5";
-import { allCharactersAdapter } from "./adapter";
-
-const BASE_URL = "https://gateway.marvel.com:443/v1/public/characters";
-
-const timestamp = new Date().toISOString();
-const md5hash = md5(
-  timestamp +
-    process.env.NEXT_PUBLIC_MARVEL_PRIVATE_API_KEY +
-    process.env.NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY
-);
-
-const querySSRParams = {
-  ts: timestamp,
-  apikey: process.env.NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY,
-  hash: md5hash,
-};
-
-const instance = axios.create();
-const api = setupCache(instance);
+//marvel-challenge/src/api/marvel.js
+import { allCharactersAdapter, characterAdapter } from "./adapter";
 
 export const fetchCharacters = async () => {
   try {
-    const result = await api.get(BASE_URL, {
-      params: { limit: 50, orderBy: "name", ...querySSRParams },
-    });
+    const response = await fetch("/api/characters");
 
-    const characters = allCharactersAdapter(result.data.data);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    const characters = allCharactersAdapter(data.data);
 
     return characters;
   } catch (error) {
@@ -39,25 +21,40 @@ export const fetchCharacters = async () => {
 
 export const fetchSearchCharacterByName = async (searchText) => {
   try {
-    console.log(searchText);
-    const response = await api.get(`${BASE_URL}`, {
-      params: { nameStartsWith: searchText, ...querySSRParams },
-    });
-    console.log(response.data.data.results);
-    return response.data.data.results;
+    const response = await fetch(
+      `/api/search?nameStartsWith=${encodeURIComponent(searchText)}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    const characters = allCharactersAdapter(data.data);
+
+    return characters;
   } catch (error) {
     console.error("Error al obtener la lista de personajes:", error);
     return [];
   }
 };
 
-// Función para obtener información detallada de un personaje específico por su ID
 export const fetchCharacterById = async (characterId) => {
   try {
-    const response = await api.get(`${BASE_URL}/${characterId}`, {
-      params: querySSRParams,
-    });
-    return response.data.data.results[0];
+    const response = await fetch(`/api/characters/${characterId}`);
+
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log(data);
+    const character = characterAdapter(data);
+    console.log(character);
+
+    return character;
   } catch (error) {
     console.error("Error al obtener información del personaje:", error);
     return null;
@@ -66,15 +63,14 @@ export const fetchCharacterById = async (characterId) => {
 
 export const fetchCharacterComics = async (characterId) => {
   try {
-    const response = await api.get(`${BASE_URL}/${characterId}/comics`, {
-      formatType: "comic",
-      orderBy: "onsaleDate",
-      limit: 20,
-      params: querySSRParams,
-    });
-    const comics = comicsAdapter(result.data.data.results);
+    const response = await fetch(`/api/characters/${characterId}/comics`);
 
-    return comics;
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error al obtener información del personaje:", error);
     return null;

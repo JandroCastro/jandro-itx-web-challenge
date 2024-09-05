@@ -13,7 +13,7 @@ const ComicCard = ({ comic }) => {
           className={styles.image}
           width={200} // Ajusta este valor según el tamaño que quieras
           height={300} // Ajusta este valor según el tamaño que quieras
-          src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
+          src={comic.img}
           alt={comic.title}
         />
       </div>

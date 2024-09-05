@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import styles from "./CharacterList.module.css";
 import CharacterCard from "../CharacterCard/CharacterCard";
@@ -7,17 +6,15 @@ import { useSearchParams } from "next/navigation";
 import { useCharactersContext } from "@/context/CharactersCtx";
 import { useFavoritesContext } from "@/context/FavoritesCtx";
 
-function CharacterList() {
+const CharacterList = React.memo(() => {
   const { favorites, toggleFavorite } = useFavoritesContext();
   const { state } = useCharactersContext();
   const { characters } = state;
 
   const searchParams = useSearchParams();
 
-  // Determinar qué vista se está usando
   const view = searchParams.get("view");
 
-  // Filtrar los personajes basados en la vista
   const filteredCharacters = view === "favorites" ? favorites : characters;
 
   if (!filteredCharacters.length) {
@@ -29,7 +26,7 @@ function CharacterList() {
       <div className={styles.charactersGrid}>
         {filteredCharacters.map((character) => (
           <CharacterCard
-            key={`${character.id}-${Math.random()}`}
+            key={character.id}
             character={character}
             toggle={toggleFavorite}
           />
@@ -37,6 +34,6 @@ function CharacterList() {
       </div>
     </>
   );
-}
+});
 
 export default CharacterList;

@@ -1,27 +1,53 @@
 "use client";
 import { useParams } from "next/navigation";
 import styles from "./CharacterDetail.module.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ComicCarousel from "@/components/ComicCarousel/ComicCarousel";
 import { useCharactersContext } from "@/context/CharactersCtx";
+import SkeletonCarousel from "@/components/SkeletonCarousel/SkeletonCarousel";
 
 function CharacterDetail() {
   const { id } = useParams();
   const { actions, state } = useCharactersContext();
-  const { getHeroById, getCharacterComics } = actions;
+  const { getHeroById, getCharacterComics, clearHeroData } = actions;
   const { hero, characterComics } = state;
+
+  const [loadingHero, setLoadingHero] = useState(true);
+  const [loadingComics, setLoadingComics] = useState(true);
 
   const isFavorite = false;
 
   useEffect(() => {
-    getHeroById(id);
-    getCharacterComics(id);
-  }, []);
+    const fetchData = async () => {
+      try {
+        await getHeroById(id);
+      } catch (error) {
+        console.error("Error fetching hero:", error);
+      } finally {
+        setLoadingHero(false);
+      }
 
-  if (!hero) {
-    return <div>Cargando...</div>;
+      try {
+        await getCharacterComics(id);
+      } catch (error) {
+        console.error("Error fetching comics:", error);
+      } finally {
+        setLoadingComics(false);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      clearHeroData();
+    };
+  }, [id]);
+
+  if (loadingHero) {
+    return <div className={styles.loading}>Cargando héroe...</div>;
   }
+
   return (
     <div className={styles.detailsContainer}>
       <div className={`${styles.characterResume} ${styles.cornerCut}`}>
@@ -31,7 +57,7 @@ function CharacterDetail() {
               priority
               width={500}
               height={500}
-              src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}
+              src={hero.img}
               alt={hero.name}
             />
           </div>
@@ -65,7 +91,11 @@ function CharacterDetail() {
             <h3>Comics</h3>
           </div>
           <div className={styles.characterComicsCarousel}>
-            <ComicCarousel comics={characterComics} />
+            {loadingComics ? (
+              <p>Cargando cómics... </p>
+            ) : (
+              <ComicCarousel comics={characterComics} />
+            )}
           </div>
         </div>
       </div>

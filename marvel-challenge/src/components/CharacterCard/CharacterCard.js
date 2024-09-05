@@ -9,9 +9,7 @@ import {
 } from "@/context/FavoritesCtx";
 
 const CharacterCard = memo(function CharacterCard({ character }) {
-  const img = `${character.thumbnail.path}.${character.thumbnail.extension}`;
-
-  const { toggleFavorite } = useFavoritesContext(); // Solo usas favoritos
+  const { toggleFavorite } = useFavoritesContext();
   const isFavorite = useFavoritesSelector((favorites) =>
     favorites.some((fav) => fav.id === character.id)
   );
@@ -32,7 +30,7 @@ const CharacterCard = memo(function CharacterCard({ character }) {
       <div className={styles.charCardImg}>
         <Image
           priority
-          src={img}
+          src={character.img}
           alt={character.name}
           width={0}
           height={0}

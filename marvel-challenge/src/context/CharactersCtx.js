@@ -43,11 +43,12 @@ export const CharactersProvider = ({ children }) => {
   const getHeroById = async (id) => {
     try {
       // Opción A - Usar la API de Marvel
-      // const hero = await fetchCharacterById(id);
-      // setHero(hero);
+      const hero = await fetchCharacterById(id);
+      console.log("Fetched hero:", hero);
+      setHero(hero);
 
       // Opción B - Usar datos dummy sacados de la API de Marvel
-      setHero(fakehero.data.results[0]);
+      // setHero(fakehero.data.results[0]);
     } catch (error) {
       console.error("Error al obtener el héroe:", error);
       setHero(null);
@@ -57,11 +58,11 @@ export const CharactersProvider = ({ children }) => {
   const getHeroesByText = async (searchText) => {
     try {
       // Opción A - Usar la API de Marvel
-      // const heroes = await fetchSearchCharacterByName(searchText);
-      // setCharacters(heroes);
+      const heroes = await fetchSearchCharacterByName(searchText);
+      setCharacters(heroes);
 
       // Opción B - Usar datos dummy sacados de la API de Marvel
-      setCharacters(fakefilter);
+      // setCharacters(fakefilter);
     } catch (error) {
       console.error("Error al obtener el héroe:", error);
       setHero(null);
@@ -71,11 +72,11 @@ export const CharactersProvider = ({ children }) => {
   const getCharacterComics = async (id) => {
     try {
       // Opción A - Usar la API de Marvel
-      // const comics = await fetchCharacterComics(id);
-      // setCharacterComics(comics);
+      const comics = await fetchCharacterComics(id);
+      setCharacterComics(comics);
 
       // Opción B - Usar datos dummy sacados de la API de Marvel
-      setCharacterComics(fakecomics.data.results);
+      // setCharacterComics(fakecomics.data.results);
     } catch (error) {
       console.error("Error al obtener los cómics del héroe:", error);
       setCharacterComics([]);
@@ -85,10 +86,14 @@ export const CharactersProvider = ({ children }) => {
   const clearSearch = () => {
     setSearchTerm("");
     // Opción A - Usar la API de Marvel
-    // getAllHeroes();
+    getAllHeroes();
 
     // Opción B - Usar datos dummy sacados de la API de Marvel
-    setCharacters(allHeroes);
+    // setCharacters(allHeroes);
+  };
+
+  const clearHeroData = () => {
+    setHero(null);
   };
 
   const value = useMemo(
@@ -108,6 +113,7 @@ export const CharactersProvider = ({ children }) => {
         getCharacterComics,
         setCharacters,
         clearSearch,
+        clearHeroData,
       },
     }),
     [characters, hero, characterComics]
