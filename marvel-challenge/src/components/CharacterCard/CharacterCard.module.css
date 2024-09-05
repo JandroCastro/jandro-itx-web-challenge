@@ -1,0 +1,70 @@
+.charCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 350px; /* Define la altura fija de la tarjeta */
+  overflow: hidden;
+  border: 1px solid #ddd;
+  position: relative; /* Necesario para que cornerCut se posicione correctamente */
+}
+
+.charCardImg {
+  flex: 1 1 auto;
+  position: relative; /* Necesario para que la imagen de Next.js ocupe todo el contenedor */
+  width: 100%;
+  overflow: hidden;
+}
+
+.charCardImg img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Hace que la imagen ocupe todo el contenedor manteniendo la proporción */
+  object-position: center; /* Centra la imagen dentro del contenedor */
+}
+
+.charCardInfo {
+  padding: 2rem;
+  background-color: var(--color-black);
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.cornerCut {
+  position: absolute;
+  bottom: -1px;
+  right: -1px; /*px rounding */
+  width: 20px;
+  height: 20px;
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+  background: linear-gradient(
+    to bottom right,
+    var(--color-black) 50%,
+    white 50%
+  );
+}
+
+.charCardInfo img {
+  width: 12px;
+  height: 10.84px;
+  margin-right: 16px;
+}
+
+.charCardInfo p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link {
+  text-decoration: none;
+}

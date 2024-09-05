@@ -1,0 +1,124 @@
+.detailsContainer {
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  height: calc(100vh - var(--header-height));
+}
+
+.characterResume {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.characterResumeContent {
+  display: flex;
+  width: 70%;
+  height: 100%;
+}
+
+.characterImage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.characterImage img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.characterInfo {
+  flex: 1;
+  padding: var(--padding-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.characterTitle {
+  display: flex;
+  text-transform: uppercase;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--margin-md);
+  padding: var(--padding-xs);
+}
+
+.characterComics {
+  grid-row: 2;
+  width: 100vw;
+}
+
+.characterComicsContent {
+  width: 70%;
+  display: flex;
+  margin: 0 auto;
+  padding-bottom: var(--padding-xl);
+  flex-direction: column;
+  flex: 1;
+}
+
+.characterComicsTitle {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xxl);
+  text-transform: uppercase;
+  padding: var(--padding-lg) 0;
+}
+
+.characterComicsCarousel {
+  flex: 1;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 835px) {
+  .characterResume {
+    width: 100vw;
+  }
+  .characterResumeContent {
+    width: 100%;
+  }
+
+  .characterImage {
+    width: 35%;
+    flex: 0 0 35%;
+  }
+
+  .characterInfo {
+    flex: 1;
+    padding-left: var(--padding-sm);
+  }
+
+  .characterComicsContent {
+    margin: 0;
+    padding: var(--padding-sm);
+  }
+}
+
+@media screen and (max-width: 394px) {
+  .characterResumeContent {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+  }
+
+  .characterResume {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .characterImage {
+    width: 100%;
+    flex: 0 0 50vh;
+  }
+
+  .characterImage img {
+    flex: 0 0 500px;
+    overflow: hidden;
+  }
+}

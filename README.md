@@ -1,1 +1,0 @@
-# jandro-zara-marvel-challenge

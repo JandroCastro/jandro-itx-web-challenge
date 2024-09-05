@@ -1,0 +1,22 @@
+.wrapper {
+  width: 100%;
+}
+
+.searchBarWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+.searchBar {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  outline: none;
+}
+
+.results {
+  margin-top: var(--margin-md);
+}
