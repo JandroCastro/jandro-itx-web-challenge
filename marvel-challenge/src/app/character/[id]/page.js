@@ -92,7 +92,7 @@ function CharacterDetail() {
           </div>
           <div className={styles.characterComicsCarousel}>
             {loadingComics ? (
-              <p>Cargando cómics... </p>
+              <SkeletonCarousel />
             ) : (
               <ComicCarousel comics={characterComics} />
             )}
