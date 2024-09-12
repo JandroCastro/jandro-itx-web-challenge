@@ -33,7 +33,8 @@ npm run dev
 
 Abre http://localhost:3000 para ver la aplicación en el navegador.
 
-### Ejecutar Pruebas
+### Ejecutar los test
+
 
 El proyecto incluye pruebas unitarias utilizando Jest. Para ejecutarlas:
 
