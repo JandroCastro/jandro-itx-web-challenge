@@ -21,7 +21,7 @@ NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY=xxxxxxxx
 NEXT_PUBLIC_MARVEL_PRIVATE_API_KEY=xxxxxxxx
 ```
 
-Asegúrate de reemplazar las xxxxxxxx con tus claves de API reales obtenidas en [Marvel Developer Portal] (https://developer.marvel.com/documentation/getting_started).
+Asegúrate de reemplazar las xxxxxxxx con tus claves de API reales obtenidas en [Marvel Developer Portal](https://developer.marvel.com/documentation/getting_started).
 
 ### Ejecutar el proyecto
 
@@ -79,7 +79,7 @@ Next.js maneja el enrutamiento a través del directorio app, lo que permite la g
 
 -`src/app/api` es el directorio donde se anidan las rutas del servidor de Next que atiende a las llamadas del frontal para realizarlas a la API de Marvel.
 
-#### Lógica de Peticiones y Adaptadores
+#### Desacoplamiento de la API con Adapters
 
 En la carpeta `src/api` se ha implementado una capa de servicio que centraliza las llamadas a la API de Marvel. El archivo `marvel.js` contiene todas las funciones necesarias para interactuar con las rutas de la API en el backend de Next.js, mientras que `adapter.js` se encarga de transformar los datos recibidos de la API en un formato adecuado para la aplicación.
 
@@ -118,4 +118,3 @@ src/
 
 ```
 
-````
