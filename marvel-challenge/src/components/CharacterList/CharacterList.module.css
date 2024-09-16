@@ -4,3 +4,8 @@
   gap: 1rem;
   margin-top: var(--margin-md);
 }
+
+.results {
+  margin-top: var(--margin-sm);
+  font-size: var(--font-size-md);
+}

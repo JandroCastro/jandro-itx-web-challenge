@@ -15,8 +15,6 @@
   padding: 10px;
   font-size: 18px;
   outline: none;
-}
-
-.results {
-  margin-top: var(--margin-md);
+  text-transform: uppercase;
+  font-size: var(--font-size-lg);
 }

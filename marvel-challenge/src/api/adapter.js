@@ -12,7 +12,7 @@ export const allCharactersAdapter = (data) => {
 export const comicsAdapter = (comics) => {
   return comics.map((comic) => ({
     id: comic.id,
-    img: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+    img: comic.img || `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
     title: comic.title,
     dates: comic.dates.map((date) => ({
       type: date.type,
@@ -22,9 +22,6 @@ export const comicsAdapter = (comics) => {
 };
 
 export const characterAdapter = (data) => {
-  console.log("Full data:", data);
-
-  // Asegúrate de que data.data.results existe y tiene elementos
   if (
     !data ||
     !data.data ||
@@ -37,14 +34,11 @@ export const characterAdapter = (data) => {
 
   const character = data.data.results[0];
 
-  console.log("Character data:", character);
-
   if (!character) {
     console.error("Character is undefined.");
     return null;
   }
 
-  // Asegúrate de que la propiedad thumbnail existe
   if (!character.thumbnail) {
     console.error("Character thumbnail is undefined.");
     return null;
@@ -52,7 +46,6 @@ export const characterAdapter = (data) => {
 
   const { path, extension } = character.thumbnail;
 
-  // Verifica si path y extension están definidos
   if (!path || !extension) {
     console.error("Thumbnail path or extension is missing.");
     return null;

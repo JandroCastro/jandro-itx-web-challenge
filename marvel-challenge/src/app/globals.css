@@ -11,6 +11,7 @@
   --font-size-xl: 2rem;
   --font-size-xxl: 2.5rem;
   --font-size-xxxl: 3rem;
+  --font-size-extra: 4rem;
 
   --color-black: #000000;
   --color-white: #ffffff;
@@ -46,6 +47,7 @@ li {
 
 html {
   font-size: 62.5%;
+  line-height: 18.75px;
 }
 
 x html,

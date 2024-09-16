@@ -1,4 +1,3 @@
-// marvel-challenge/src/app/api/utils.js
 import axios from "axios";
 import md5 from "md5";
 import { setupCache } from "axios-cache-interceptor";

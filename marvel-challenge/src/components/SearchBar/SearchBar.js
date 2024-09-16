@@ -1,33 +1,45 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+//marvel-challenge/src/components/SearchBar/SearchBar.js
+import React, { useRef } from "react";
 import styles from "./SearchBar.module.css";
 import Image from "next/image";
 import { useCharactersContext } from "@/context/CharactersCtx";
+import { useRouter } from "next/navigation";
 
 function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
   const debounceTimeout = useRef(null);
-  const { actions, state } = useCharactersContext();
-  const { charCount } = state;
-  const { getHeroesByText, getAllHeroes } = actions;
+  const { actions } = useCharactersContext();
+  const { getHeroesByText, getAllHeroes, setLoading } = actions;
+  const router = useRouter();
 
-  const handleSearch = (e) => {
+  function handleSearch(e) {
     const value = e.target.value;
-    setSearchTerm(value);
-
     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
     }
 
-    if (value.trim() === "") {
-      getAllHeroes();
-      return;
-    }
+    setLoading(true);
 
     debounceTimeout.current = setTimeout(() => {
-      getHeroesByText(value);
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("view")) {
+        params.delete("view");
+        let newUrl = `${window.location.pathname}?${params.toString()}`;
+
+        if (!params.toString()) {
+          newUrl = window.location.pathname;
+        }
+
+        router.replace(newUrl);
+      }
+
+      if (value.trim() === "") {
+        getAllHeroes();
+      } else {
+        getHeroesByText(value);
+      }
     }, 500);
-  };
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -43,12 +55,10 @@ function SearchBar() {
         <input
           className={styles.searchBar}
           type="text"
-          value={searchTerm}
-          placeholder="Search a character"
+          placeholder="Search a character..."
           onChange={handleSearch}
         />
       </div>
-      <p className={styles.results}>{charCount} RESULTS</p>
     </div>
   );
 }

@@ -6,17 +6,18 @@ import Image from "next/image";
 import ComicCarousel from "@/components/ComicCarousel/ComicCarousel";
 import { useCharactersContext } from "@/context/CharactersCtx";
 import SkeletonCarousel from "@/components/SkeletonCarousel/SkeletonCarousel";
+import { useFavoritesContext } from "@/context/FavoritesCtx";
 
 function CharacterDetail() {
   const { id } = useParams();
   const { actions, state } = useCharactersContext();
   const { getHeroById, getCharacterComics, clearHeroData } = actions;
   const { hero, characterComics } = state;
+  const { favorites, toggleFavorite } = useFavoritesContext();
 
+  const [isFavorite, setIsFavorite] = useState(false);
   const [loadingHero, setLoadingHero] = useState(true);
   const [loadingComics, setLoadingComics] = useState(true);
-
-  const isFavorite = false;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +45,16 @@ function CharacterDetail() {
     };
   }, [id]);
 
+  useEffect(() => {
+    const favStatus = favorites.some((fav) => fav.id === Number(id));
+    setIsFavorite(favStatus);
+  }, [favorites, id]);
+
+  const handleClick = () => {
+    setIsFavorite((prev) => !prev);
+    toggleFavorite(hero);
+  };
+
   if (loadingHero) {
     return <div className={styles.loading}>Cargando héroe...</div>;
   }
@@ -53,27 +64,22 @@ function CharacterDetail() {
       <div className={`${styles.characterResume} ${styles.cornerCut}`}>
         <div className={styles.characterResumeContent}>
           <div className={styles.characterImage}>
-            <Image
-              priority
-              width={500}
-              height={500}
-              src={hero.img}
-              alt={hero.name}
-            />
+            <Image priority fill={true} src={hero.img} alt={hero.name} />
           </div>
           <div className={styles.characterInfo}>
             <div className={styles.characterTitle}>
               <h1>{hero.name}</h1>
               {isFavorite ? (
                 <Image
+                  onClick={handleClick}
                   src="/HeartFilled.svg"
                   width={20}
                   height={20}
                   alt="Favorites Logo"
-                  layout="intrinsic"
                 />
               ) : (
                 <Image
+                  onClick={handleClick}
                   src="/HeartUnfilled.svg"
                   width={20}
                   height={20}
@@ -81,7 +87,7 @@ function CharacterDetail() {
                 />
               )}
             </div>
-            <p>{hero.description}</p>
+            <p className={styles.heroDescription}>{hero.description}</p>
           </div>
         </div>
       </div>

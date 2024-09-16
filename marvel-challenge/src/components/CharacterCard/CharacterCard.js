@@ -2,7 +2,6 @@ import React, { memo } from "react";
 import styles from "./CharacterCard.module.css";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useCharactersContext } from "@/context/CharactersCtx";
 import {
   useFavoritesContext,
   useFavoritesSelector,
@@ -32,8 +31,7 @@ const CharacterCard = memo(function CharacterCard({ character }) {
           priority
           src={character.img}
           alt={character.name}
-          width={0}
-          height={0}
+          fill
           sizes="33vw"
         />
       </div>

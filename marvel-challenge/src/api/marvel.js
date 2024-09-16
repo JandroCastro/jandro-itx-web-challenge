@@ -1,5 +1,8 @@
-//marvel-challenge/src/api/marvel.js
-import { allCharactersAdapter, characterAdapter } from "./adapter";
+import {
+  allCharactersAdapter,
+  characterAdapter,
+  comicsAdapter,
+} from "./adapter";
 
 export const fetchCharacters = async () => {
   try {
@@ -43,16 +46,12 @@ export const fetchCharacterById = async (characterId) => {
   try {
     const response = await fetch(`/api/characters/${characterId}`);
 
-    console.log(response);
-
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
-    console.log(data);
     const character = characterAdapter(data);
-    console.log(character);
 
     return character;
   } catch (error) {
@@ -70,7 +69,9 @@ export const fetchCharacterComics = async (characterId) => {
     }
 
     const data = await response.json();
-    return data;
+    const comics = comicsAdapter(data);
+
+    return comics;
   } catch (error) {
     console.error("Error al obtener información del personaje:", error);
     return null;

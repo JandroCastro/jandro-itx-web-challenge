@@ -8,13 +8,13 @@ import { useCharactersContext } from "@/context/CharactersCtx";
 
 function Header() {
   const { favorites } = useFavoritesContext();
-  const { actions } = useCharactersContext(); // Obtener la función clearSearch
+  const { actions } = useCharactersContext();
   const { clearSearch } = actions;
 
   const favCount = favorites.length;
 
   const handleClick = () => {
-    clearSearch(); // Limpiar la búsqueda cuando se hace clic en el logo
+    clearSearch();
   };
 
   return (

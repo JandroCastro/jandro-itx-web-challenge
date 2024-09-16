@@ -6,10 +6,6 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { fakehero, fakefilter } from "@/api/hero";
-import { allHeroes } from "@/api/getHeroes";
-import { fakecomics } from "@/api/comic";
-import { useSearchParams } from "next/navigation";
 import {
   fetchCharacters,
   fetchSearchCharacterByName,
@@ -24,72 +20,66 @@ export const CharactersProvider = ({ children }) => {
   const [characterComics, setCharacterComics] = useState([]);
   const [hero, setHero] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getAllHeroes();
   }, []);
 
   const getAllHeroes = async () => {
-    //Opcion A - Usar la API de Marvel
-    // const data = await fetchCharacters();
-    // setCharacters(data);
-
-    //Opcion B - Usar datos dummy sacados de la API de Marvel
-    setCharacters(allHeroes);
-    setLoading(false);
+    setLoading(true);
+    try {
+      const data = await fetchCharacters();
+      setCharacters(data);
+    } catch (error) {
+      console.error("Error al obtener todos los héroes:", error);
+      setCharacters([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getHeroById = async (id) => {
+    setLoading(true);
     try {
-      // Opción A - Usar la API de Marvel
       const hero = await fetchCharacterById(id);
-      console.log("Fetched hero:", hero);
       setHero(hero);
-
-      // Opción B - Usar datos dummy sacados de la API de Marvel
-      // setHero(fakehero.data.results[0]);
     } catch (error) {
       console.error("Error al obtener el héroe:", error);
       setHero(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getHeroesByText = async (searchText) => {
+    setLoading(true);
+
     try {
-      // Opción A - Usar la API de Marvel
       const heroes = await fetchSearchCharacterByName(searchText);
       setCharacters(heroes);
-
-      // Opción B - Usar datos dummy sacados de la API de Marvel
-      // setCharacters(fakefilter);
     } catch (error) {
-      console.error("Error al obtener el héroe:", error);
-      setHero(null);
+      console.error("Error al obtener los héroes por texto:", error);
+      setCharacters([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getCharacterComics = async (id) => {
+    setLoading(true);
     try {
-      // Opción A - Usar la API de Marvel
       const comics = await fetchCharacterComics(id);
       setCharacterComics(comics);
-
-      // Opción B - Usar datos dummy sacados de la API de Marvel
-      // setCharacterComics(fakecomics.data.results);
     } catch (error) {
       console.error("Error al obtener los cómics del héroe:", error);
       setCharacterComics([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const clearSearch = () => {
-    setSearchTerm("");
-    // Opción A - Usar la API de Marvel
     getAllHeroes();
-
-    // Opción B - Usar datos dummy sacados de la API de Marvel
-    // setCharacters(allHeroes);
   };
 
   const clearHeroData = () => {
@@ -104,7 +94,6 @@ export const CharactersProvider = ({ children }) => {
         characterComics,
         charCount: characters.length,
         loading,
-        searchTerm,
       },
       actions: {
         getAllHeroes,
@@ -114,9 +103,10 @@ export const CharactersProvider = ({ children }) => {
         setCharacters,
         clearSearch,
         clearHeroData,
+        setLoading,
       },
     }),
-    [characters, hero, characterComics]
+    [characters, hero, characterComics, loading]
   );
 
   return (

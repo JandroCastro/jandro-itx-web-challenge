@@ -1,4 +1,4 @@
-// marvel-challenge/src/app/api/characters/route.js
+//
 import { api, getMarvelParams } from "../utils";
 import { NextResponse } from "next/server";
 
@@ -9,8 +9,8 @@ export async function GET() {
   });
 
   try {
-    const response = await api.get("", { params }); // La URL base ya está configurada
-    return NextResponse.json(response.data); // Usar NextResponse para responder
+    const response = await api.get("", { params });
+    return NextResponse.json(response.data);
   } catch (error) {
     return NextResponse.json({ error: "Error fetching data" }, { status: 500 });
   }

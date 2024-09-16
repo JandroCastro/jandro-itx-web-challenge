@@ -1,4 +1,3 @@
-// marvel-challenge/src/app/api/characters/[id]/route.js
 import { api, getMarvelParams } from "../../utils";
 import { NextResponse } from "next/server";
 
