@@ -14,13 +14,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    forceSwcTransforms: true, // Forzar el uso de SWC para la transformación
+    forceSwcTransforms: true,
   },
   webpack(config, { dev }) {
     if (dev) {
-      // Configuración para desarrollo
       config.optimization.minimize = false;
-      // Configura loaders si necesitas manejar assets específicos en desarrollo
+
       config.module.rules.push({
         test: /\.(png|jpg|gif|svg)$/,
         use: {
@@ -31,9 +30,8 @@ const nextConfig = {
         },
       });
     } else {
-      // Configuración para producción
       config.optimization.minimize = true;
-      // Configura loaders si necesitas manejar assets específicos en producción
+
       config.module.rules.push({
         test: /\.(png|jpg|gif|svg)$/,
         use: {
@@ -50,7 +48,6 @@ const nextConfig = {
   },
 };
 
-// Envuelve la configuración con withBundleAnalyzer
 const withBundleAnalyzerConfig = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 })(nextConfig);

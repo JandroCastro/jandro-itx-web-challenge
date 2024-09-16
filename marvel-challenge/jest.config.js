@@ -16,7 +16,6 @@ const config = {
   setupFilesAfterEnv: ["<rootDir>/setupTests.js"],
   testEnvironment: "jsdom",
 
-  // Transformar archivos usando babel-jest para pruebas
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
